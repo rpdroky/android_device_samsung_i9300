@@ -35,12 +35,6 @@ service gpsd /system/bin/gpsd -c /system/etc/gps.xml
     group system inet sdcard_rw
     seclabel u:r:gpsd:s0
 
-# ZRAM configuration file
-service configure_zram /system/bin/configure_zram
-    class late_start
-    user root
-    oneshot
-
 # CyanogenMod Performance Profiles
 
 # Powersave
