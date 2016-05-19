@@ -20,14 +20,10 @@
 -include device/samsung/smdk4412-common/BoardCommonConfig.mk
 
 # Enable dex-preoptimization to speed up first boot sequence
-ifeq ($(HOST_OS),linux)
-  ifeq ($(WITH_DEXPREOPT),)
-    WITH_DEXPREOPT := true
-  endif
-endif
+# WITH_DEXPREOPT := true
 
 # Bionic
-MALLOC_IMPL := dlmalloc
+MALLOC_IMPL := jemalloc
 
 # RIL
 BOARD_PROVIDES_LIBRIL := true
