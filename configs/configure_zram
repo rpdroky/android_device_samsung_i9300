@@ -1,0 +1,30 @@
+#!/system/bin/sh
+set -e
+
+ZRAM_DEVICES="zram0" # Use "zram0 zram1 zram2 zram3" for 4 devices
+ZRAM_SIZE="419430400" # Per each ZRAM_DEVICE, 400 MB (400 * 1048576)
+SWAPPINESS="100"
+PAGECLUSTER="0" # Default 3 , 0 is recommended for low ram devices
+
+SWAP_BIN="swapon"
+SWAP_CMD="-p 2"
+if ! swapon 2>&1 | grep -qi "\-p pri"; then # If swapon doesn't support priority
+	if ! busybox swapon 2>&1 | grep -qi "\-p pri"; then # If busybox swapon doesn't support priority
+		SWAP_CMD="" # Disable priority
+	else
+		SWAP_BIN="busybox swapon" # Change binary to busybox swapon, as it supports priority
+	fi
+fi
+
+for ZRAM_DEVICE in $ZRAM_DEVICES; do
+	if [[ -e "/dev/block/$ZRAM_DEVICE" && -e "/sys/block/$ZRAM_DEVICE" ]]; then
+		echo "$ZRAM_SIZE" > "/sys/block/$ZRAM_DEVICE/disksize"
+		mkswap "/dev/block/$ZRAM_DEVICE"
+		$SWAP_BIN $SWAP_CMD "/dev/block/$ZRAM_DEVICE"
+	fi
+done
+
+echo "$SWAPPINESS" > /proc/sys/vm/swappiness
+echo "$PAGECLUSTER" > /proc/sys/vm/page-cluster
+
+exit 0

@@ -97,4 +97,8 @@ PRODUCT_COPY_FILES += \
 	frameworks/native/data/etc/handheld_core_hardware.xml:system/etc/permissions/handheld_core_hardware.xml \
     frameworks/native/data/etc/android.hardware.telephony.gsm.xml:system/etc/permissions/android.hardware.telephony.gsm.xml
 
+# ZRAM
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/configure_zram:system/bin/configure_zram
+
 $(call inherit-product-if-exists, vendor/samsung/i9300/i9300-vendor.mk)
