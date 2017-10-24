@@ -5,11 +5,15 @@ PRODUCT_RELEASE_NAME := i9300
 TARGET_SCREEN_HEIGHT := 1280
 TARGET_SCREEN_WIDTH := 720
 
-# Inherit some common stuff.
-$(call inherit-product, vendor/cm/config/common_full_phone.mk)
-
 # Inherit device configuration
 $(call inherit-product, device/samsung/i9300/full_i9300.mk)
+
+# Inherit some common stuff.
+$(call inherit-product, vendor/cm/config/common.mk)
+$(call inherit-product, vendor/cm/config/telephony.mk)
+
+# Required packages
+PRODUCT_PACKAGES += LatinIME Snap
 
 # Device identifier. This must come after all inclusions
 PRODUCT_DEVICE := i9300
